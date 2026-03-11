@@ -1,0 +1,795 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Mentor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Primary Color Variables */
+        :root {
+            --bs-primary: #2563eb;
+            --bs-primary-rgb: 37, 99, 235;
+            --bs-primary-dark: #1d4ed8;
+            --bs-light-bg: #f8fafc;
+            --bs-success: #10b981;
+            --bs-purple: #8b5cf6;
+            --bs-warning: #f59e0b;
+        }
+        
+        /* Global Styles */
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: var(--bs-light-bg);
+            color: #2c3e50;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Header Styles */
+        .header {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .sitename {
+            font-size: 1.8rem;
+            color: var(--bs-primary);
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .navmenu {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .navmenu ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 30px;
+        }
+        
+        .navmenu a {
+            color: #5d6d7e;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .navmenu a i {
+            font-size: 1.1rem;
+        }
+        
+        .navmenu a:hover,
+        .navmenu .active {
+            color: var(--bs-primary);
+        }
+        
+        .navmenu a:hover:after,
+        .navmenu .active:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--bs-primary);
+        }
+        
+        .mobile-nav-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--bs-primary);
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 100px 0 40px;
+            min-height: calc(100vh - 80px);
+        }
+        
+        /* Welcome Card */
+        .welcome-card {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.2);
+        }
+        
+        .welcome-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-card p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+        }
+        
+        /* Dashboard Cards - Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-left: 5px solid transparent;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.15);
+        }
+        
+        .stat-card.faculty {
+            border-left-color: var(--bs-primary);
+        }
+        
+        .stat-card.students {
+            border-left-color: var(--bs-success);
+        }
+        
+        .stat-card.results {
+            border-left-color: var(--bs-purple);
+        }
+        
+        .stat-card.attendance {
+            border-left-color: var(--bs-warning);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+        }
+        
+        .stat-card.faculty .stat-icon {
+            background: rgba(37, 99, 235, 0.1);
+        }
+        
+        .stat-card.students .stat-icon {
+            background: rgba(16, 185, 129, 0.1);
+        }
+        
+        .stat-card.results .stat-icon {
+            background: rgba(139, 92, 246, 0.1);
+        }
+        
+        .stat-card.attendance .stat-icon {
+            background: rgba(245, 158, 11, 0.1);
+        }
+        
+        .stat-icon i {
+            font-size: 1.8rem;
+        }
+        
+        .stat-card.faculty .stat-icon i {
+            color: var(--bs-primary);
+        }
+        
+        .stat-card.students .stat-icon i {
+            color: var(--bs-success);
+        }
+        
+        .stat-card.results .stat-icon i {
+            color: var(--bs-purple);
+        }
+        
+        .stat-card.attendance .stat-icon i {
+            color: var(--bs-warning);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            color: #5d6d7e;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        
+        .stat-change {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: #5d6d7e;
+            gap: 5px;
+        }
+        
+        .stat-change.positive {
+            color: var(--bs-success);
+        }
+        
+        .stat-change.negative {
+            color: #ef4444;
+        }
+        
+        /* Content Area */
+        .content-area {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .content-header h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        /* Quick Actions Cards */
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            height: 100%;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.15);
+            border-color: var(--bs-primary);
+        }
+        
+        .action-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+        
+        .action-icon i {
+            font-size: 2rem;
+            color: var(--bs-primary);
+        }
+        
+        .action-card h3 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .action-card p {
+            color: #5d6d7e;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .btn-action {
+            background: var(--bs-primary);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .btn-action:hover {
+            background: var(--bs-primary-dark);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        /* Recent Activity */
+        .recent-activity {
+            margin-top: 40px;
+        }
+        
+        .activity-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--bs-primary);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
+        }
+        
+        .activity-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .activity-content h5 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .activity-content p {
+            color: #5d6d7e;
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+        
+        .activity-time {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        
+        /* Scroll Top */
+        .scroll-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--bs-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        .scroll-top:hover {
+            background-color: var(--bs-primary-dark);
+            transform: translateY(-5px);
+            color: white;
+        }
+        
+        /* Footer */
+        .footer {
+            background: white;
+            padding: 30px 0;
+            margin-top: 60px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .footer p {
+            color: #5d6d7e;
+            margin: 0;
+            text-align: center;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .navmenu ul {
+                gap: 15px;
+            }
+            
+            .welcome-card h2 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .actions-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-nav-toggle {
+                display: block;
+            }
+            
+            .navmenu {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background: white;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                flex-direction: column;
+                padding: 20px;
+                z-index: 999;
+            }
+            
+            .navmenu.active {
+                right: 0;
+            }
+            
+            .navmenu ul {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .navmenu li {
+                margin-bottom: 15px;
+            }
+            
+            .navmenu a:hover:after,
+            .navmenu .active:after {
+                display: none;
+            }
+            
+            .welcome-card {
+                padding: 30px 20px;
+            }
+            
+            .welcome-card h2 {
+                font-size: 1.8rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .actions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .content-area {
+                padding: 20px;
+            }
+            
+            .welcome-card h2 {
+                font-size: 1.6rem;
+            }
+            
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="{% url 'home' %}" class="logo">
+                    <!-- Logo Image - Update the src path as needed -->
+                    {% if 'assets/img/logo.png' %}
+                        <img src="{% static 'assets/img/logo.png' %}" alt="Mentor Logo">
+                    {% else %}
+                        <!-- Fallback logo if image doesn't exist -->
+                        <div style="width: 40px; height: 40px; background: var(--bs-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 10px;">
+                            <i class="fas fa-graduation-cap" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                    {% endif %}
+                    <h1 class="sitename">Mentor</h1>
+                </a>
+                
+                <i class="mobile-nav-toggle bi bi-list" id="mobile-nav-toggle"></i>
+                
+                <nav id="navmenu" class="navmenu">
+                    <ul>
+                        <li><a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                        <li><a href="{% url 'view_faculty' %}"><i class="fas fa-chalkboard-teacher"></i> View Faculty</a></li>
+                        <li><a href="{% url 'view_students' %}"><i class="fas fa-users"></i> View Students</a></li>
+                        <li><a href="#"><i class="fas fa-chart-line"></i> View Results</a></li>
+                        <li><a href="#"><i class="fas fa-clipboard-check"></i> View Attendance</a></li>
+                        <li><a href="{% url 'admin_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="container main-content">
+            <!-- Welcome Section -->
+            <div class="welcome-card">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2>Welcome to Admin Dashboard</h2>
+                        <p>Manage faculty members, student records, exam results, and attendance from this centralized admin panel.</p>
+                    </div>
+                    <div class="col-md-4 text-end">
+                        <div class="current-course">
+                            <div class="course-icon" style="display: inline-flex; background: rgba(255,255,255,0.2); padding: 15px; border-radius: 12px;">
+                                <i class="fas fa-user-shield" style="font-size: 2rem;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <a href="{% url 'view_faculty' %}" class="stat-card faculty">
+                    <div class="stat-icon">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                    </div>
+                    <div class="stat-number">45</div>
+                    <div class="stat-label">Faculty Members</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+2 this month</span>
+                    </div>
+                </a>
+                
+                <a href="{% url 'view_students' %}" class="stat-card students">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-number">1,240</div>
+                    <div class="stat-label">Total Students</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+45 this month</span>
+                    </div>
+                </a>
+                
+                <a href="#" class="stat-card results">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">Results Published</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>+5% from last term</span>
+                    </div>
+                </a>
+                
+                <a href="#" class="stat-card attendance">
+                    <div class="stat-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="stat-number">94%</div>
+                    <div class="stat-label">Avg. Attendance</div>
+                    <div class="stat-change negative">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>-2% from last month</span>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Content Area -->
+            <div class="content-area">
+                <div class="content-header">
+                    <h2>Quick Actions</h2>
+                    <div>
+                        <a href="#" class="btn-action">
+                            <i class="fas fa-download"></i> Export Data
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Quick Actions Grid -->
+                <div class="actions-grid">
+                    <a href="{% url 'view_faculty' %}" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <h3>Manage Faculty</h3>
+                        <p>View and manage faculty profiles, assign courses, and track teaching assignments.</p>
+                        <div class="btn-action">Access Now</div>
+                    </a>
+                    
+                    <a href="{% url 'view_students' %}" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Student Records</h3>
+                        <p>Access and manage student profiles, academic records, and enrollment information.</p>
+                        <div class="btn-action">View Students</div>
+                    </a>
+                    
+                    <a href="#" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Results Analysis</h3>
+                        <p>Analyze exam results, generate performance reports, and track academic trends.</p>
+                        <div class="btn-action">View Results</div>
+                    </a>
+                    
+                    <a href="#" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h3>Attendance Monitor</h3>
+                        <p>Monitor attendance records, generate reports, and track student presence.</p>
+                        <div class="btn-action">View Attendance</div>
+                    </a>
+                </div>
+                
+                <!-- Recent Activity -->
+                <div class="recent-activity mt-5">
+                    <h3 style="margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid var(--bs-primary);">Recent Activity</h3>
+                    
+                    <div class="activity-item">
+                        <div class="activity-content">
+                            <h5>New Faculty Added</h5>
+                            <p>Dr. Sarah Johnson was added to the Computer Science department</p>
+                            <div class="activity-time">Today, 11:30 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-content">
+                            <h5>Student Records Updated</h5>
+                            <p>Updated 25 student records for the new academic year</p>
+                            <div class="activity-time">Yesterday, 4:15 PM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-content">
+                            <h5>System Maintenance</h5>
+                            <p>Performed routine system maintenance and backup</p>
+                            <div class="activity-time">2 days ago</div>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-item">
+                        <div class="activity-content">
+                            <h5>Report Generated</h5>
+                            <p>Generated monthly attendance report for all departments</p>
+                            <div class="activity-time">3 days ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Admin Dashboard v2.0 • Last updated: Today, 11:45 AM</p>
+            <p style="margin-top: 5px;">© 2023 University Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top"><i class="fas fa-arrow-up"></i></a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Navigation Toggle
+            const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+            const navmenu = document.getElementById('navmenu');
+            
+            if (mobileNavToggle) {
+                mobileNavToggle.addEventListener('click', function() {
+                    navmenu.classList.toggle('active');
+                    this.classList.toggle('bi-list');
+                    this.classList.toggle('bi-x');
+                });
+            }
+            
+            // Close mobile menu when clicking on a nav link
+            const navLinks = document.querySelectorAll('.navmenu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (navmenu.classList.contains('active')) {
+                        navmenu.classList.remove('active');
+                        mobileNavToggle.classList.toggle('bi-list');
+                        mobileNavToggle.classList.toggle('bi-x');
+                    }
+                });
+            });
+            
+            // Scroll Top
+            const scrollTop = document.getElementById('scroll-top');
+            if (scrollTop) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 100) {
+                        scrollTop.style.display = 'flex';
+                    } else {
+                        scrollTop.style.display = 'none';
+                    }
+                });
+                
+                scrollTop.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            
+            // Set active nav link based on current page
+            const currentPath = window.location.pathname;
+            navLinks.forEach(link => {
+                if (link.href.includes(currentPath) && currentPath !== '/') {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>View Result - Mentor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins&family=Raleway&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+
+    <!-- Main CSS -->
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+    <!-- PAGE + NAVBAR OVERRIDE CSS -->
+    <style>
+        /* ===== GLOBAL ===== */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f9;
+        }
+
+        /* ===== FORCE NAVBAR BLUE (REMOVE GREEN) ===== */
+        .navmenu a:hover,
+        .navmenu li:hover > a,
+        .navmenu .active {
+            color: #2563eb !important;
+        }
+
+        .navmenu .dropdown ul a:hover {
+            color: #2563eb !important;
+        }
+
+        .mobile-nav-toggle {
+            color: #2563eb !important;
+        }
+
+        .mobile-nav-active .navmenu {
+            border-left: 4px solid #2563eb !important;
+        }
+
+        /* ===== PAGE STYLES ===== */
+        .container-box {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .page-header {
+            background: linear-gradient(to right, #2563eb, #1e40af);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .form-box {
+            padding: 25px;
+            background: #f0f5ff;
+            border-bottom: 1px solid #dbeafe;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+            color: #1e40af;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #93c5fd;
+            font-size: 15px;
+            background: #f8fafc;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn {
+            margin-top: 20px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 220px;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+            color: white;
+            text-decoration: none;
+        }
+
+        .student-info {
+            padding: 20px;
+            background: #dbeafe;
+            font-weight: 600;
+            font-size: 16px;
+            color: #1e40af;
+            border-left: 4px solid #2563eb;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+        }
+
+        th {
+            background: #2563eb;
+            color: white;
+            padding: 12px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:hover {
+            background: #f0f5ff;
+        }
+
+        .pass {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            border: 1px solid #93c5fd;
+        }
+
+        .fail {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            border: 1px solid #fbbf24;
+        }
+
+        .summary {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+            font-weight: 700;
+            font-size: 16px;
+            padding: 15px;
+            background: #f0f5ff;
+            border-radius: 8px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .summary div:first-child {
+            color: #1e40af;
+        }
+
+        .messages {
+            margin: 15px 20px;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #b00020;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            border-left: 4px solid #dc2626;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #4b5563;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .download-section {
+            text-align: center;
+            margin: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e5e7eb;
+        }
+    </style>
+</head>
+
+<body class="index-page">
+
+<!-- ================= STUDENT NAVBAR ================= -->
+<header id="header" class="header d-flex align-items-center sticky-top">
+  <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+    <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto">
+      <img src="{% static 'assets/img/logo.png' %}" alt="">
+      <h1 class="sitename">Mentor</h1>
+    </a>
+
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="{% url 'stu_dash' %}">Dashboard</a></li>
+        <li><a href="{% url 'view_attandence' %}">View Attendance</a></li>
+        <li><a href="{% url 'view_result' %}" class="active">View Results</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+      </ul>
+
+      <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+    </nav>
+
+  </div>
+</header>
+<!-- ================= NAVBAR END ================= -->
+
+
+<!-- ================= MAIN CONTENT ================= -->
+<div class="container-box">
+
+    <div class="page-header">Student Result</div>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="error">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- SEARCH FORM -->
+    <div class="form-box">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div>
+                    <label>College ID</label>
+                    <input type="text" name="college_id" required>
+                </div>
+
+                <div>
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+
+                <div>
+                    <label>Year</label>
+                    <select name="year" required>
+                        <option value="">Select Year</option>
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Semester</label>
+                    <select name="semester" required>
+                        <option value="">Select Semester</option>
+                        {% for i in "12345678" %}
+                        <option value="{{ forloop.counter }}">Semester {{ forloop.counter }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn" type="submit">View Result</button>
+        </form>
+    </div>
+
+    {% if student %}
+    <div class="student-info">
+        {{ student.name }} | {{ student.college_id }} | {{ student.email }} |
+        Year {{ student.year }} | Semester {{ student.semester }}
+    </div>
+    {% endif %}
+
+    {% if results %}
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Marks</th>
+            <th>Status</th>
+        </tr>
+
+        {% for r in results %}
+        <tr>
+            <td>{{ r.subject }}</td>
+            <td>{{ r.marks }}</td>
+            <td>
+                {% if r.result == 'Pass' %}
+                    <span class="pass">Pass</span>
+                {% else %}
+                    <span class="fail">Fail</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div class="summary">
+        <div>Total Percentage: {{ percentage }}%</div>
+        <div>
+            Overall Result:
+            {% if overall_result == 'Pass' %}
+                <span class="pass">Pass</span>
+            {% else %}
+                <span class="fail">Fail</span>
+            {% endif %}
+        </div>
+    </div>
+
+    {% if student %}
+    <div class="download-section">
+        <a href="{% url 'download_result' student.id %}" class="btn">
+            ⬇ Download Result PDF
+        </a>
+    </div>
+    {% endif %}
+
+    {% elif student %}
+        <div class="no-data">No result records found</div>
+    {% endif %}
+
+</div>
+
+<!-- Vendor JS -->
+<script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+</html>

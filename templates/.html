@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Attendance</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f4f6f9;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(to right, #4361ee, #7209b7);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .form-box {
+            padding: 25px;
+            background: #f8f9ff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        .btn {
+            margin-top: 20px;
+            background: #4361ee;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 220px;
+        }
+
+        .btn:hover {
+            background: #3a56d4;
+        }
+
+        .student-info {
+            padding: 20px;
+            background: #eef2ff;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .day-box {
+            margin: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: #4361ee;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .present {
+            background: #d1f3ff;
+            color: #0b7285;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .absent {
+            background: #ffd6e0;
+            color: #c9184a;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .percentage {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .messages {
+            margin: 15px 20px;
+        }
+
+        .error {
+            background: #ffe0e0;
+            color: #b00020;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">Student Attendance</div>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="error">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- SEARCH FORM -->
+    <div class="form-box">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div>
+                    <label>College ID</label>
+                    <input type="text" name="college_id" required>
+                </div>
+
+                <div>
+                    <label>Name</label>
+                    <input type="text" name="name" required>
+                </div>
+
+                <div>
+                    <label>Year</label>
+                    <select name="year" required>
+                        <option value="">Select Year</option>
+                        <option value="1">1st Year</option>
+                        <option value="2">2nd Year</option>
+                        <option value="3">3rd Year</option>
+                        <option value="4">4th Year</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Semester</label>
+                    <select name="semester" required>
+                        <option value="">Select Semester</option>
+                        {% for i in "12345678" %}
+                        <option value="{{ forloop.counter }}">Semester {{ forloop.counter }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button class="btn" type="submit">View Attendance</button>
+        </form>
+    </div>
+
+    <!-- STUDENT DETAILS -->
+    {% if student %}
+    <div class="student-info">
+        {{ student.name }} | {{ student.college_id }} | Year {{ student.year }} | Semester {{ student.semester }}
+    </div>
+    {% endif %}
+
+    <!-- ATTENDANCE -->
+    {% if attendance_days %}
+        {% for day in attendance_days %}
+        <div class="day-box">
+            <div class="day-header">
+                <div>Date: {{ day.date }}</div>
+                <div class="percentage">
+                    {{ day.present }}/{{ day.total }} |
+                    {{ day.percentage }}%
+                </div>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Subject</th>
+                    <th>Period</th>
+                    <th>Status</th>
+                </tr>
+
+                {% for att in day.records %}
+                <tr>
+                    <td>{{ att.subject.name }}</td>
+                    <td>Period {{ att.period }}</td>
+                    <td>
+                        {% if att.status == 'Present' %}
+                            <span class="present">Present</span>
+                        {% else %}
+                            <span class="absent">Absent</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% endfor %}
+    {% elif student %}
+        <div class="no-data">No attendance records found</div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>

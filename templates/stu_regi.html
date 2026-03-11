@@ -1,0 +1,652 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Student Registration - Mentor</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+  <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+  <!-- Main CSS File -->
+  <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+  <style>
+    /* Primary Color Variables */
+    :root {
+      --bs-primary: #2563eb;
+      --bs-primary-rgb: 37, 99, 235;
+      --bs-primary-dark: #1d4ed8;
+    }
+    
+    /* Button Styles */
+    .btn-primary {
+      background-color: #2563eb !important;
+      border-color: #2563eb !important;
+    }
+    
+    .btn-primary:hover,
+    .btn-primary:focus,
+    .btn-primary:active {
+      background-color: #1d4ed8 !important;
+      border-color: #1d4ed8 !important;
+    }
+    
+    .btn-outline-primary {
+      color: #2563eb !important;
+      border-color: #2563eb !important;
+    }
+    
+    .btn-outline-primary:hover {
+      background-color: #2563eb !important;
+      color: white !important;
+    }
+    
+    /* Navigation Styles */
+    .navmenu a:hover,
+    .navmenu .active,
+    .navmenu li:hover > a {
+      color: #2563eb !important;
+    }
+    
+    .dropdown ul a:hover,
+    .dropdown ul .active,
+    .dropdown ul li:hover > a {
+      color: #2563eb !important;
+    }
+    
+    .dropdown > a:after {
+      color: #2563eb !important;
+    }
+    
+    /* Mobile Navigation */
+    .mobile-nav-active .navmenu {
+      border-left-color: #2563eb !important;
+    }
+    
+    .mobile-nav-active .bi-list,
+    .mobile-nav-active .bi-x {
+      color: #2563eb !important;
+    }
+    
+    /* Scroll Top Button */
+    .scroll-top {
+      background-color: #2563eb !important;
+    }
+    
+    .scroll-top:hover {
+      background-color: #1d4ed8 !important;
+    }
+    
+    /* Text Primary Color */
+    .text-primary {
+      color: #2563eb !important;
+    }
+    
+    /* Link Colors */
+    a {
+      color: #2563eb;
+    }
+    
+    a:hover {
+      color: #1d4ed8;
+    }
+    
+    /* Custom Styles for Registration Page */
+    .registration-section {
+      padding: 80px 0;
+      background: #e6f2ff; /* Light blue background */
+      min-height: 100vh;
+    }
+    
+    .registration-card {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(37, 99, 235, 0.2); /* #2563eb shadow */
+      padding: 40px;
+      transition: transform 0.3s ease;
+      border: 1px solid #d1e7ff;
+    }
+    
+    .registration-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 50px rgba(37, 99, 235, 0.3);
+    }
+    
+    .registration-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .registration-header h2 {
+      color: #2c3e50;
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .registration-header h2:after {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 3px;
+      background: #2563eb;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .registration-header p {
+      color: #5d6d7e;
+    }
+    
+    .form-label {
+      font-weight: 600;
+      color: #2c3e50;
+      margin-bottom: 8px;
+    }
+    
+    .form-control {
+      padding: 12px 15px;
+      border: 2px solid #d1e7ff;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      background-color: #f9fcff;
+    }
+    
+    .form-control:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25);
+      background-color: white;
+    }
+    
+    .form-control-file {
+      padding: 12px 15px;
+      border: 2px solid #d1e7ff;
+      border-radius: 10px;
+      background-color: #f9fcff;
+      width: 100%;
+    }
+    
+    .form-control-file:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.25);
+      background-color: white;
+    }
+    
+    .image-preview-container {
+      display: none;
+      margin-top: 15px;
+      text-align: center;
+    }
+    
+    .image-preview {
+      max-width: 200px;
+      max-height: 200px;
+      border-radius: 10px;
+      border: 2px solid #d1e7ff;
+      padding: 5px;
+      background-color: white;
+    }
+    
+    .image-upload-label {
+      display: block;
+      padding: 12px 15px;
+      border: 2px dashed #2563eb;
+      border-radius: 10px;
+      background-color: #f0f9ff;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #2563eb;
+      font-weight: 500;
+    }
+    
+    .image-upload-label:hover {
+      background-color: #e6f2ff;
+      border-color: #1d4ed8;
+    }
+    
+    .btn-register {
+      background: linear-gradient(45deg, #2563eb, #1d4ed8);
+      color: white;
+      padding: 12px 30px;
+      border-radius: 10px;
+      font-weight: 600;
+      border: none;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-register:hover {
+      background: linear-gradient(45deg, #1d4ed8, #1e40af);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+    }
+    
+    .login-link {
+      text-align: center;
+      margin-top: 20px;
+      color: #5d6d7e;
+    }
+    
+    .login-link a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .login-link a:hover {
+      text-decoration: underline;
+      color: #1d4ed8;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    .input-icon {
+      position: relative;
+    }
+    
+    .input-icon i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #2563eb;
+    }
+    
+    .input-icon .form-control {
+      padding-left: 45px;
+    }
+    
+    .alert {
+      border-radius: 10px;
+      border: none;
+      padding: 15px 20px;
+    }
+    
+    .form-check-input:checked {
+      background-color: #2563eb;
+      border-color: #2563eb;
+    }
+    
+    .text-muted i {
+      color: #2563eb;
+    }
+    
+    .file-info {
+      margin-top: 8px;
+      font-size: 0.875rem;
+      color: #5d6d7e;
+      padding-left: 15px;
+    }
+    
+    /* Decorative elements for blue theme */
+    .blue-decoration {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(37, 99, 235, 0.1);
+      z-index: 0;
+    }
+    
+    .decoration-1 {
+      width: 200px;
+      height: 200px;
+      top: -100px;
+      right: -100px;
+    }
+    
+    .decoration-2 {
+      width: 150px;
+      height: 150px;
+      bottom: -75px;
+      left: -75px;
+    }
+    
+    .section {
+      position: relative;
+      overflow: hidden;
+    }
+  </style>
+</head>
+
+<body class="index-page">
+
+  <header id="header" class="header d-flex align-items-center sticky-top">
+    <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+      <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto">
+        <img src="{% static 'assets/img/logo.png' %}" alt="">
+        <h1 class="sitename">Mentor</h1>
+      </a>
+
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a href="{% url 'home' %}" class="active">Home<br></a></li>
+          
+          <li class="dropdown"><a href="#"><span>Admin</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="#">Login</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#"><span>Faculty</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="#">Register</a></li>
+              <li><a href="#">Login</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a href="#"><span>Student</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+            <ul>
+              <li><a href="{% url 'stu_regi' %}">Register</a></li>
+              <li><a href="{% url 'stu_login' %}">Login</a></li>
+            </ul>
+          </li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="main">
+    <!-- Registration Section -->
+    <section class="registration-section section">
+      <div class="blue-decoration decoration-1"></div>
+      <div class="blue-decoration decoration-2"></div>
+      
+      <div class="container" data-aos="fade-up">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 col-md-10">
+            
+            <!-- Messages Display -->
+            {% if messages %}
+            <div class="mb-4">
+              {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endfor %}
+            </div>
+            {% endif %}
+            
+            <div class="registration-card">
+              <div class="registration-header">
+                <h2>Student Registration</h2>
+                <p>Join our community and start your learning journey</p>
+              </div>
+              
+              <!-- Add enctype="multipart/form-data" to handle file uploads -->
+              <form method="POST" action="{% url 'stu_regi' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Full Name</label>
+                      <div class="input-icon">
+                        <i class="bi bi-person"></i>
+                        <input type="text" class="form-control" name="name" placeholder="Enter your full name" required>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Email Address</label>
+                      <div class="input-icon">
+                        <i class="bi bi-envelope"></i>
+                        <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Phone Number</label>
+                      <div class="input-icon">
+                        <i class="bi bi-phone"></i>
+                        <input type="tel" class="form-control" name="phone" placeholder="Enter your phone number" required>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- New Image Upload Field -->
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Profile Picture</label>
+                      <div class="input-icon">
+                        <i class="bi bi-camera"></i>
+                        <!-- Hidden file input -->
+                        <input type="file" class="form-control d-none" id="image" name="image" accept="image/*">
+                        <!-- Custom styled label that triggers the file input -->
+                        <label for="image" class="image-upload-label">
+                          <i class="bi bi-cloud-arrow-up me-2"></i>
+                          Click to upload profile picture
+                        </label>
+                        <!-- File info display -->
+                        <div id="file-info" class="file-info"></div>
+                        <!-- Image preview -->
+                        <div id="image-preview-container" class="image-preview-container">
+                          <img id="image-preview" class="image-preview" src="" alt="Preview">
+                        </div>
+                      </div>
+                      <small class="text-muted">Optional. Supported formats: JPG, PNG, GIF. Max size: 5MB</small>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Password</label>
+                      <div class="input-icon">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" class="form-control" name="password" placeholder="Create a password" required>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Confirm Password</label>
+                      <div class="input-icon">
+                        <i class="bi bi-lock-fill"></i>
+                        <input type="password" class="form-control" name="confirm_password" placeholder="Confirm your password" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Batch (Year Range)</label>
+                      <div class="input-icon">
+                        <i class="bi bi-calendar"></i>
+                        <input type="text" class="form-control" name="batch" placeholder="2022-2026" required>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Year of Study</label>
+                      <div class="input-icon">
+                        <i class="bi bi-mortarboard"></i>
+                        <select class="form-control" name="year" required>
+                          <option value="">-- Select Year --</option>
+                          <option value="1">1st Year</option>
+                          <option value="2">2nd Year</option>
+                          <option value="3">3rd Year</option>
+                          <option value="4">4th Year</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">Semester</label>
+                      <div class="input-icon">
+                        <i class="bi bi-book"></i>
+                        <select class="form-control" name="semester" required>
+                          <option value="">-- Select Semester --</option>
+                          <option value="1">Semester 1</option>
+                          <option value="2">Semester 2</option>
+                          <option value="3">Semester 3</option>
+                          <option value="4">Semester 4</option>
+                          <option value="5">Semester 5</option>
+                          <option value="6">Semester 6</option>
+                          <option value="7">Semester 7</option>
+                          <option value="8">Semester 8</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                  <label class="form-label">Address</label>
+                  <div class="input-icon">
+                    <i class="bi bi-geo-alt"></i>
+                    <textarea class="form-control" name="address" rows="3" placeholder="Enter your full address" required></textarea>
+                  </div>
+                </div>
+                
+                <div class="form-group form-check">
+                  <input type="checkbox" class="form-check-input" id="terms" required>
+                  <label class="form-check-label" for="terms">
+                    I agree to the <a href="#" class="text-primary">Terms & Conditions</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                  </label>
+                </div>
+                
+                <div class="form-group mt-4">
+                  <button type="submit" class="btn btn-register">
+                    <i class="bi bi-person-plus me-2"></i> Register Now
+                  </button>
+                </div>
+                
+                <div class="login-link">
+                  Already have an account? <a href="{% url 'stu_login' %}">Login here</a>
+                </div>
+              </form>
+            </div>
+            
+            <div class="text-center mt-4">
+              <p class="text-muted">
+                <i class="bi bi-shield-check me-2"></i>
+                Your information is securely encrypted and protected
+              </p>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </section><!-- /Registration Section -->
+    
+  </main>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+  <!-- Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+
+  <script>
+    
+      
+      {% comment %} // Image upload preview functionality
+      imageInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        
+        if (file) {
+          // Display file info
+          fileInfo.textContent = `Selected: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
+          
+          // Check file size (max 5MB)
+          if (file.size > 5 * 1024 * 1024) {
+            alert('File size exceeds 5MB limit. Please choose a smaller file.');
+            imageInput.value = '';
+            fileInfo.textContent = '';
+            imagePreviewContainer.style.display = 'none';
+            return;
+          }
+          
+          // Check file type
+          const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
+          if (!validTypes.includes(file.type)) {
+            alert('Please select a valid image file (JPG, PNG, or GIF).');
+            imageInput.value = '';
+            fileInfo.textContent = '';
+            imagePreviewContainer.style.display = 'none';
+            return;
+          }
+          
+          // Create preview
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            imagePreview.src = e.target.result;
+            imagePreviewContainer.style.display = 'block';
+          };
+          reader.readAsDataURL(file);
+        } else {
+          fileInfo.textContent = '';
+          imagePreviewContainer.style.display = 'none';
+        }
+      });
+      
+      form.addEventListener('submit', function(e) {
+        if (password.value !== confirmPassword.value) {
+          e.preventDefault();
+          alert('Passwords do not match!');
+          return false;
+        }
+        
+       
+        
+        
+        
+        return true;
+      });
+    }); {% endcomment %}
+  </script>
+
+</body>
+
+</html>

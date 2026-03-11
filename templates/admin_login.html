@@ -1,0 +1,489 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Mentor</title>
+    
+    <!-- Favicons -->
+    <link href="{% static 'assets/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'assets/img/apple-touch-icon.png' %}" rel="apple-touch-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet">
+
+    <!-- Main CSS File -->
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
+    <!-- Enhanced Blue Theme Styles -->
+    <style>
+        /* Enhanced Primary Color Variables */
+        :root {
+            --bs-primary: #2563eb;
+            --bs-primary-rgb: 37, 99, 235;
+            --bs-primary-dark: #1d4ed8;
+            --bs-primary-light: #dbeafe;
+            --bs-primary-gradient: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            --bs-primary-shadow: 0 4px 20px rgba(37, 99, 235, 0.2);
+        }
+        
+        /* NAVBAR HOVER FIXES - Ensuring Blue Color */
+        .navmenu ul li a:hover,
+        .navmenu ul li:hover > a,
+        .navmenu ul .active,
+        .navmenu ul li .active:hover {
+            color: #2563eb !important;
+        }
+        
+        .navmenu .dropdown ul li a:hover,
+        .navmenu .dropdown ul li:hover > a,
+        .navmenu .dropdown ul .active,
+        .navmenu .dropdown ul li .active:hover {
+            color: #2563eb !important;
+        }
+        
+        .navmenu .dropdown > a:after {
+            color: #2563eb !important;
+        }
+        
+        .navmenu .dropdown:hover > a:after {
+            color: #2563eb !important;
+        }
+        
+        /* Dropdown menu hover states */
+        .navmenu .dropdown ul a:hover,
+        .navmenu .dropdown ul .active:hover,
+        .navmenu .dropdown ul li:hover > a {
+            color: #2563eb !important;
+            background-color: rgba(37, 99, 235, 0.08);
+        }
+        
+        /* Mobile Navigation */
+        .mobile-nav-active .navmenu {
+            border-left-color: #2563eb !important;
+        }
+        
+        .mobile-nav-active .bi-list,
+        .mobile-nav-active .bi-x {
+            color: #2563eb !important;
+        }
+        
+        /* Active link in navbar */
+        .navmenu a.active {
+            color: #2563eb !important;
+        }
+        
+        /* Dropdown active state */
+        .navmenu .dropdown ul a.active {
+            color: #2563eb !important;
+            background-color: rgba(37, 99, 235, 0.08);
+        }
+        
+        /* Enhanced Login Container */
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: var(--bs-primary-shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(37, 99, 235, 0.1);
+        }
+        
+        /* Decorative Elements */
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--bs-primary-gradient);
+        }
+        
+        .login-container::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: var(--bs-primary-light);
+            border-radius: 50%;
+            opacity: 0.5;
+            z-index: 0;
+        }
+        
+        /* Logo and Header */
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            background: var(--bs-primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        }
+        
+        .login-logo i {
+            font-size: 36px;
+            color: #2563eb;
+        }
+        
+        .login-container h2 {
+            color: #1e293b;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+        
+        .login-subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #475569;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            padding-left: 45px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background: white;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 42px;
+            color: #94a3b8;
+            font-size: 18px;
+        }
+        
+        /* Button Styles */
+        .btn-primary {
+            background: var(--bs-primary-gradient);
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        /* Message Styles */
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .message.success {
+            background: #dcfce7;
+            color: #16a34a;
+            border-color: #bbf7d0;
+        }
+        
+        /* Footer Links */
+        .login-footer {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            font-size: 14px;
+            color: #64748b;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .login-footer a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .login-footer a:hover {
+            color: #1d4ed8;
+            text-decoration: underline;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 20px;
+                margin: 20px;
+            }
+            
+            .login-container h2 {
+                font-size: 24px;
+            }
+            
+            .login-logo {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .login-logo i {
+                font-size: 28px;
+            }
+        }
+        
+        /* Animation for form */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .login-container {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Enhanced Header Styling */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Scroll Top Button Enhancement */
+        #scroll-top {
+            background: var(--bs-primary-gradient);
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+        }
+        
+        #scroll-top:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+    </style>
+</head>
+
+<body class="index-page">
+
+    <!-- Header with Navbar -->
+    <header id="header" class="header d-flex align-items-center sticky-top">
+        <div class="container-fluid container-xl position-relative d-flex align-items-center">
+    
+          <a href="{% url 'home' %}" class="logo d-flex align-items-center me-auto">
+            <img src="{% static 'assets/img/logo.png' %}" alt="">
+            <h1 class="sitename">Mentor</h1>
+          </a>
+    
+          <nav id="navmenu" class="navmenu">
+            <ul>
+              <li><a href="{% url 'home' %}">Home</a></li>
+              
+              <li class="dropdown"><a href="#"><span>Admin</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul>
+                  <li><a href="{% url 'admin_login' %}" class="active">Login</a></li>
+                </ul>
+              </li>
+              <li class="dropdown"><a href="#"><span>Faculty</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul>
+                  <li><a href="{% url 'fac_regi' %}">Register</a></li>
+                  <li><a href="{% url 'fac_login' %}">Login</a></li>
+                </ul>
+              </li>
+              <li class="dropdown"><a href="#"><span>Student</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul>
+                  <li><a href="{% url 'stu_regi' %}">Register</a></li>
+                  <li><a href="{% url 'stu_login' %}">Login</a></li>
+                </ul>
+              </li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+          </nav>
+    
+        </div>
+      </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="bi bi-shield-lock"></i>
+                </div>
+                <h2>Admin Portal</h2>
+                <p class="login-subtitle">Secure access to administrative dashboard</p>
+            </div>
+
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="message {% if msg.tags == 'success' %}success{% endif %}">
+                        {{ msg }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" action="{% url 'admin_login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="form-label" for="username">Username</label>
+                    <div class="input-icon">
+                        <i class="bi bi-person"></i>
+                    </div>
+                    <input type="text" 
+                           name="username" 
+                           id="username" 
+                           class="form-input" 
+                           placeholder="Enter your username" 
+                           required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="input-icon">
+                        <i class="bi bi-lock"></i>
+                    </div>
+                    <input type="password" 
+                           name="password" 
+                           id="password" 
+                           class="form-input" 
+                           placeholder="Enter your password" 
+                           required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Login to Dashboard
+                </button>
+            </form>
+            
+            <div class="login-footer">
+                <p>Need help? <a href="{% url 'home' %}">Contact support</a></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+        <i class="bi bi-arrow-up-short"></i>
+    </a>
+
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+</body>
+</html>

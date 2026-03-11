@@ -1,0 +1,505 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Students - Mentor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Primary Color Variables */
+        :root {
+            --bs-primary: #2563eb;
+            --bs-primary-rgb: 37, 99, 235;
+            --bs-primary-dark: #1d4ed8;
+            --bs-light-bg: #f8fafc;
+        }
+        
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            background: #eef2ff;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Header Styles */
+        .header {
+            background: white;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .sitename {
+            font-size: 1.8rem;
+            color: var(--bs-primary);
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .d-flex {
+            display: flex;
+        }
+        
+        .align-items-center {
+            align-items: center;
+        }
+        
+        .justify-content-between {
+            justify-content: space-between;
+        }
+        
+        .navmenu {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        .navmenu ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 30px;
+        }
+        
+        .navmenu a {
+            color: #5d6d7e;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .navmenu a:hover,
+        .navmenu .active {
+            color: var(--bs-primary);
+        }
+        
+        .navmenu a:hover:after,
+        .navmenu .active:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--bs-primary);
+        }
+        
+        .mobile-nav-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--bs-primary);
+        }
+        
+        /* Main Content Container */
+        .main-container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #1f2937;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead {
+            background: #2563eb;
+            color: #ffffff;
+            position: sticky;
+            top: 0;
+        }
+
+        th, td {
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        /* Profile image style */
+        .profile-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #2563eb;
+        }
+
+        .no-img {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #f3f4f6;
+            color: #9ca3af;
+            font-size: 11px;
+            border: 2px dashed #d1d5db;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 10px 20px;
+            background: #2563eb;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Responsive table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        /* Column specific styling */
+        .col-name {
+            min-width: 120px;
+        }
+        
+        .col-email {
+            min-width: 180px;
+        }
+        
+        .col-address {
+            min-width: 150px;
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+        
+        .col-id {
+            min-width: 100px;
+        }
+        
+        .col-batch {
+            min-width: 80px;
+        }
+        
+        .col-year, .col-semester {
+            min-width: 90px;
+        }
+        
+        .col-phone {
+            min-width: 100px;
+        }
+        
+        .col-profile {
+            min-width: 70px;
+        }
+        
+        .col-sno {
+            min-width: 60px;
+        }
+        
+        /* Footer */
+        .footer {
+            background: white;
+            padding: 20px 0;
+            margin-top: 40px;
+            border-top: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        
+        .footer p {
+            color: #5d6d7e;
+            margin: 5px 0;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .mobile-nav-toggle {
+                display: block;
+            }
+            
+            .navmenu {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background: white;
+                box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                flex-direction: column;
+                padding: 20px;
+                z-index: 999;
+            }
+            
+            .navmenu.active {
+                right: 0;
+            }
+            
+            .navmenu ul {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .navmenu li {
+                margin-bottom: 15px;
+            }
+            
+            .navmenu a:hover:after,
+            .navmenu .active:after {
+                display: none;
+            }
+            
+            .main-container {
+                width: 90%;
+                padding: 20px;
+                margin: 20px auto;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .main-container {
+                width: 95%;
+                padding: 15px;
+            }
+            
+            th, td {
+                padding: 8px 5px;
+                font-size: 12px;
+            }
+            
+            .back-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header sticky-top">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <a href="{% url 'home' %}" class="logo" style="padding-left:80px">
+                    <!-- Logo Image -->
+                    {% if 'assets/img/logo.png' %}
+                        <img src="{% static 'assets/img/logo.png' %}" alt="Mentor Logo">
+                    {% else %}
+                        <!-- Fallback logo if image doesn't exist -->
+                        <div style="width: 40px; height: 40px; background: var(--bs-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 10px;">
+                            <i class="fas fa-graduation-cap" style="color: white; font-size: 1.5rem;"></i>
+                        </div>
+                    {% endif %}
+                    <h1 class="sitename">Mentor</h1>
+                </a>
+                
+                <i class="mobile-nav-toggle bi bi-list" id="mobile-nav-toggle"></i>
+                
+                <nav id="navmenu" class="navmenu" style="padding-right:100px">
+                    <ul>
+                        <li><a href="{% url 'fac_dash' %}">Dashboard</a></li>
+                        <li><a href="{% url 'view_students_fac' %}" class="active">View Students</a></li>
+                        <li><a href="{% url 'post_attendance' %}">Post Attendance</a></li>
+                        <li><a href="{% url 'post_result' %}">Post Results</a></li>
+                        <li><a href="{% url 'view_results_fac' %}">View Results</a></li>
+                        <li><a href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <h2>Student Details</h2>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-sno">S.No</th>
+                        <th class="col-profile">Profile</th>
+                        <th class="col-id">College ID</th>
+                        <th class="col-name">Student Name</th>
+                        <th class="col-email">Email</th>
+                        <th class="col-phone">Phone</th>
+                        <th class="col-batch">Batch</th>
+                        <th class="col-year">Year</th>
+                        <th class="col-semester">Semester</th>
+                        <th class="col-address">Address</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if students %}
+                        {% for stu in students %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            
+                            <!-- Profile Image -->
+                            <td>
+                                {% if stu.images and stu.images.url %}
+                                    <img src="{{ stu.images.url }}" class="profile-img" alt="{{ stu.name }}">
+                                {% else %}
+                                    <div class="no-img">No Image</div>
+                                {% endif %}
+                            </td>
+                            
+                            <td>{{ stu.college_id|default:"-" }}</td>
+                            <td>{{ stu.name }}</td>
+                            <td>{{ stu.email }}</td>
+                            <td>{{ stu.phone|default:"-" }}</td>
+                            <td>{{ stu.batch|default:"-" }}</td>
+                            <td>
+                                {% if stu.year %}
+                                    {{ stu.get_year_display }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if stu.semester %}
+                                    {{ stu.get_semester_display }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td class="col-address">
+                                {% if stu.address %}
+                                    {{ stu.address|truncatechars:30 }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="10" class="no-data">
+                                <i>No students available</i>
+                            </td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        
+        
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>Student Management System • Faculty View</p>
+            <p>© 2023 University Management System. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Navigation Toggle
+            const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+            const navmenu = document.getElementById('navmenu');
+            
+            if (mobileNavToggle) {
+                mobileNavToggle.addEventListener('click', function() {
+                    navmenu.classList.toggle('active');
+                    this.classList.toggle('bi-list');
+                    this.classList.toggle('bi-x');
+                });
+            }
+            
+            // Close mobile menu when clicking on a nav link
+            const navLinks = document.querySelectorAll('.navmenu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (navmenu.classList.contains('active')) {
+                        navmenu.classList.remove('active');
+                        mobileNavToggle.classList.toggle('bi-list');
+                        mobileNavToggle.classList.toggle('bi-x');
+                    }
+                });
+            });
+            
+            // Set active nav link based on current page
+            const currentPath = window.location.pathname;
+            navLinks.forEach(link => {
+                const linkPath = new URL(link.href).pathname;
+                if (linkPath === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
